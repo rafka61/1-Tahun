@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Background Animasi Gradasi Pink */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #ff758c, #ff7eb3);
+            background-size: 400% 400%;
+            animation: gradientBG 8s ease infinite;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Emoji Love Melayang */
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart-emoji {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            opacity: 0.8;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.8) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Card Utama */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Container Pemutar Spotify */
+        .spotify-container {
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 60px;
+            position: relative;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-yes {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.5);
+        }
+
+        .btn-yes:hover {
+            background-color: #ff123d;
+            transform: scale(1.08);
+        }
+
+        .btn-no {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            transition: all 0.15s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="card">
+        <h1>Halo Alya Citra Wardha, gak kerasa ya sudah 1 tahun. I LOVE YOU 💕✨</h1>
+
+        <!-- Widget Pemutar Lagu Spotify: Ed Sheeran - Perfect -->
+        <div class="spotify-container">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0tgVpDi06FyKpA1z0VMD4v?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <div class="button-container">
+            <button class="btn btn-yes" onclick="sendWhatsApp()">I LOVE YOU TOO 💖</button>
+            <button class="btn btn-no" id="noBtn">I DON'T LOVE YOU 💔</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const heartsContainer = document.getElementById('heartsContainer');
+
+        window.onload = () => {
+            const yesBtn = document.querySelector('.btn-yes');
+            noBtn.style.left = (yesBtn.offsetLeft + yesBtn.offsetWidth + 15) + 'px';
+        };
+
+        function moveButton() {
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        function sendWhatsApp() {
+            const phoneNumber = "6281511843400";
+            const message = encodeURIComponent("I LOVE YOU TOO ❤️💖");
+            window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
+        }
+
+        const heartEmojis = ['❤️', '💖', '💕', '💗', '💓', '🌸'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-emoji');
+            heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
+
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+
+        setInterval(createHeart, 400);
+    </script>
+
+</body>
+</html>
